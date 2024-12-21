@@ -17,18 +17,17 @@ const app = express();
 app.use(express.json());
 
 
-app.listen(1200, () => {
-  console.log("Server is running on port 1200");
+app.listen(process.env.PORT, () => {
+  console.log(`Server is connected to and running on ${process.env.PORT}`);
 });
 app.use("/api/user", userRoutes);
 app.use("/api/auth", authRoutes);
 
-app.usse((err, req, res, next) =>{
+app.use((err, req, res, next) =>{
   const statusCode = err.statusCode || 500;
   const message = err.message || 'Internal Server Error ';
   res.status(statusCode).json({
     success:false, statusCode,
     message});
-
 }
 )
