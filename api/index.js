@@ -4,24 +4,23 @@ import dotenv from "dotenv";
 import userRoutes from "./routes/user.route.js";
 import authRoutes from "./routes/auth.route.js";
 dotenv.config();
+const app = express();
 
-mongoose
-  .connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log("Connected to MongoDB");
   })
   .catch((err) => console.log(err));
 
-
-const app = express();
-app.use(express.json());
+  const PORT = process.env.PORT || 3000;
 
 
-app.listen(process.env.PORT, () => {
-  console.log(`Server is connected to and running on ${process.env.PORT}`);
+app.listen(3000, () => {
+  console.log(`Server is connected to and running on ${PORT}`);
 });
+app.use(express.json());
 app.use("/api/user", userRoutes);
-app.use("/api/auth", authRoutes);
+app.use('/api/auth', authRoutes);
 
 app.use((err, req, res, next) =>{
   const statusCode = err.statusCode || 500;
