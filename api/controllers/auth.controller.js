@@ -16,9 +16,15 @@ try {
   res.status(201).json("User created succeesfully")
   
 } catch (error) {
-  if(error.code ===11000) res.status(409).json("User already exist with this username or email ")
-  
-  next(error)
-  
+  if (error.code === 11000) {
+    // return next(error)
+    // Handle duplicate key
+    const field = Object.keys(error.keyValue)[0]; 
+    const value = error.keyValue[field]; 
+    return res.status(400).json({
+        success: false,
+        message: `Duplicate value for ${field}: "${value}". Please use a different ${field}.`,
+    });
 }
 }
+};
