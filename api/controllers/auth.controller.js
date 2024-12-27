@@ -10,12 +10,26 @@ export const signup = async (req, res, next) => {
     
   }
 try {
+      // Check for existing user
+
+      const existingUsername = await User.findOne({ username });
+      if (existingUsername) {
+        return next(errorHandler(400, "Username already exists"));
+      }
+      const existingUser = await User.findOne({ email });
+      if (existingUser) {
+        return next(errorHandler(400, "Email already exists"));
+      }
+
   const hashedPassword = await bcryptjs.hash(password, 12)
   const user = new User({username, email, password:hashedPassword})
+  
   await user.save();
   res.status(201).json("User created succeesfully")
   
 } catch (error) {
+
+  next(error)
   if (error.code === 11000) {
     // return next(error)
     // Handle duplicate key
@@ -27,4 +41,4 @@ try {
     });
 }
 }
-};
+}

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Alert, Button, Checkbox, Label, Spinner, TextInput } from "flowbite-react";
+import { Alert, Button,Label, Spinner, TextInput } from "flowbite-react";
 
 const SignUp = () => {
   const [userData, setuserData] = useState({});
@@ -31,14 +31,15 @@ const SignUp = () => {
         return setErrorMessage(data.message);
       }
       setLoading(false);
-      if(res.OK){
-        navigate('/sign-in', {replace: true});
+      if(res.ok){
+        await navigate('/sign-in');
       }
       
     } catch (error) {
-     return setErrorMessage(error.message);
+     setErrorMessage(error.message);
      setLoading(false);
     }
+    
  
   };
   
@@ -54,7 +55,7 @@ const SignUp = () => {
             Blog
           </Link>
           <p className="text-sm mt-5">
-            This is Yadasa's Blog. Come and talk about whatever is on your mind.
+            This is Yadasa's Blog. Come and talk whatever is on your mind.
           </p>
         </div>
 
