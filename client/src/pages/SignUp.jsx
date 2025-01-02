@@ -28,7 +28,8 @@ const SignUp = () => {
       })
       const data = await res.json();
       if (data.success === false){
-        return setErrorMessage(data.message);
+        setErrorMessage(data.message);
+        setLoading(false);
       }
       setLoading(false);
       if(res.ok){
@@ -39,8 +40,6 @@ const SignUp = () => {
      setErrorMessage(error.message);
      setLoading(false);
     }
-    
- 
   };
   
   return (
@@ -64,15 +63,15 @@ const SignUp = () => {
           <form className="flex flex-col gap-4" onSubmit={handlesubmit}>
             <div>
               <Label value="Your username" />
-              <TextInput type="text" name="username" placeholder="Username" id="username" onChange={handlechange}/>
+              <TextInput autoComplete = 'off'  type="text" name="username" placeholder="Username" id="username" onChange={handlechange} />
             </div>
             <div>
               <Label value="Your email" />
-              <TextInput type="email" name="email" placeholder="example@company.com" id="email" onChange={handlechange}/>
+              <TextInput  autoComplete = 'off' name="email" placeholder="example@company.com" id="email" onChange={handlechange} />
             </div>
             <div>
               <Label value="Your password" />
-              <TextInput type="password" name="password" placeholder="Password" id="password" onChange={handlechange}/>
+              <TextInput autoComplete = 'off'  type="password" name="password" placeholder="Password" id="password" onChange={handlechange} />
             </div>
             <Button gradientDuoTone="purpleToPink" type="submit" disabled ={loading} >
               {
