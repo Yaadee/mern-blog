@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Alert, Button,Label, Spinner, TextInput } from "flowbite-react";
+import { useDispatch, useSelector} from 'react-redux';
+
+import { signinStart, singInSuccess, signInFailure } from '../redux/user/userSlice';
 
 
 const SignIn = () => {
   const [userData, setuserData] = useState({});
-  const [errorMessage, setErrorMessage] = useState(null);
-  const [loading, setLoading] = useState(false);
+ const [loading,error] = useSelector()
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handlechange = (event) => {
     setuserData({...userData, [event.target.id]:event.target.value.trim()})
@@ -19,8 +22,7 @@ const SignIn = () => {
     }
     //backend API call 
     try {
-      setLoading(true);
-      setErrorMessage(null);
+      dispatch(signinStart())
       const res = await fetch ('api/auth/signin',{
         method: 'POST',
         headers: {'content-Type': 'application/json'},
@@ -28,17 +30,16 @@ const SignIn = () => {
       })
       const data = await res.json();
       if (data.success === false){
-        setErrorMessage(data.message);
-        setLoading(false);
+        dispatch(signInFailure(data.message))
       }
       setLoading(false);
       if(res.ok){
+        dispatch(singInSuccess(data))
         await navigate('/');
       }
       
     } catch (error) {
-     setErrorMessage(error.message);
-     setLoading(false);
+     dispatch(signInFailure(error.message))
     }
   };
   
