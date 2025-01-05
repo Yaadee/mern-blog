@@ -33,7 +33,7 @@ const SignUp = () => {
       }
       setLoading(false);
       if(res.ok){
-        await navigate('/sign-in');
+        await navigate('/signin');
       }
       
     } catch (error) {
@@ -54,7 +54,7 @@ const SignUp = () => {
             Blog
           </Link>
           <p className="text-sm mt-5">
-            This is Yadasa's Blog. Come and talk whatever is on your mind.
+            This is Yadasa's Blog. Come and talk whatever is on your mind. Sign Up to join the conversation.
           </p>
         </div>
 
@@ -88,7 +88,7 @@ const SignUp = () => {
           </form>
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an Account?</span>
-            <Link to="/sign-in" className="text-blue-500">
+            <Link to="/signin" className="text-blue-500">
               Sign In
             </Link>
           </div>
