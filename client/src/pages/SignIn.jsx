@@ -8,7 +8,7 @@ import { signinStart, singInSuccess, signInFailure } from '../redux/user/userSli
 
 const SignIn = () => {
   const [userData, setuserData] = useState({});
- const [loading,error] = useSelector()
+ const {loading,error:errorMessage} = useSelector(state => state.user)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handlechange = (event) => {
@@ -18,7 +18,7 @@ const SignIn = () => {
   const handlesubmit = async(event) =>{
     event.preventDefault();
     if(!userData.email || !userData.password ){
-      return setErrorMessage('please fill out all fields.')
+      return dispatch(signInFailure('please fill out all fields.'))
     }
     //backend API call 
     try {
@@ -32,7 +32,6 @@ const SignIn = () => {
       if (data.success === false){
         dispatch(signInFailure(data.message))
       }
-      setLoading(false);
       if(res.ok){
         dispatch(singInSuccess(data))
         await navigate('/');
